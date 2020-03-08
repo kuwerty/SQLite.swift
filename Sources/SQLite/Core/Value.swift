@@ -101,6 +101,20 @@ extension Blob : Binding, Value {
 
 }
 
+extension ZeroBlob : Binding, Value {
+
+    public static let declaredDatatype = "BLOB"
+
+    public static func fromDatatypeValue(_ datatypeValue: ZeroBlob) -> ZeroBlob {
+        return datatypeValue
+    }
+
+    public var datatypeValue: ZeroBlob {
+        return self
+    }
+
+}
+
 // MARK: -
 
 extension Bool : Binding, Value {

@@ -654,6 +654,25 @@ public final class Connection {
 
 }
 
+extension Connection {
+  public func openBlob(table: Table, column: Expression<ZeroBlob>, rowid: Int64, writeable: Bool, database: String = "main") throws -> BlobStream {
+    let flags = Int32(writeable ? 1 : 0)
+
+    var pBlob : OpaquePointer?
+
+    let tableName = table.clauses.from.name
+
+    // unquote it?
+    var columnName = String(column.template)
+    columnName.removeFirst()
+    columnName.removeLast()
+
+    try check(sqlite3_blob_open(handle, database, tableName, columnName, rowid, flags, &pBlob))
+
+    return BlobStream(handle: pBlob!)
+  }
+}
+
 extension Connection : CustomStringConvertible {
 
     public var description: String {

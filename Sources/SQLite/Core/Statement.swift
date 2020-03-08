@@ -104,6 +104,8 @@ public final class Statement {
             sqlite3_bind_null(handle, Int32(idx))
         } else if let value = value as? Blob {
             sqlite3_bind_blob(handle, Int32(idx), value.bytes, Int32(value.bytes.count), SQLITE_TRANSIENT)
+        } else if let value = value as? ZeroBlob {
+            sqlite3_bind_zeroblob(handle, Int32(idx), Int32(value.count))
         } else if let value = value as? Double {
             sqlite3_bind_double(handle, Int32(idx), value)
         } else if let value = value as? Int64 {
